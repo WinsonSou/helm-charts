@@ -3,11 +3,11 @@ entries:
   istio-bookinfo:
   - apiVersion: v1
     appVersion: "1.3"
-    created: "2026-01-03T14:05:46.273973+08:00"
+    created: "2026-01-03T20:40:05.621563+08:00"
     description: Istio Bookinfo Helm chart for Kubernetes
-    digest: 2a368bd420037c4b3377d07818c90fafecba05f253b79d8d50d169342c239cce
+    digest: ebb12b273e131ed1d987a1525462a592c8ab04071d047c860cf46313468f2f17
     name: istio-bookinfo
     urls:
     - https://winsonsou.github.io/helm-charts/istio-bookinfo-1.2.2.tgz
     version: 1.2.2
-generated: "2026-01-03T14:05:46.273688+08:00"
+generated: "2026-01-03T20:40:05.621367+08:00"
