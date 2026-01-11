@@ -3,10 +3,9 @@
 # Declare variables to be passed into your templates.
 
 gateway:
-  selector: istio-helm-ingressgateway
+  enabled: true
+  gatewayClassName: istio
   hostname: example.com
-
-  httpsRedirect: false
 
   tls:
     enabled: false
@@ -19,3 +18,19 @@ gateway:
       renewBefore: 720h
       issuerName: letsencrypt
       issuerKind: ClusterIssuer
+
+waypoint:
+  enabled: true
+  name: waypoint
+
+telemetry:
+  enabled: true
+  name: bookinfo-telemetry
+  targetRefs:
+  - kind: Gateway
+    name: waypoint
+    group: gateway.networking.k8s.io
+  tracing:
+  - providers:
+    - name: "jaeger"
+    randomSamplingPercentage: 100

@@ -1,28 +1,30 @@
+{{- if .Values.gateway.enabled }}
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: bookinfo
+  name: bookinfo-gateway
 spec:
-  selector:
-    istio: {{ .Values.gateway.selector }}
-  servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - {{ .Values.gateway.hostname }}
-      tls:
-        httpsRedirect: {{ .Values.gateway.httpsRedirect }}
-    {{- if .Values.gateway.tls.enabled }}
-    - port:
-        number: 443
-        name: https
-        protocol: HTTPS
-      hosts:
-        - {{ .Values.gateway.hostname }}
-      tls:
-        mode: SIMPLE
-        credentialName: {{ .Values.gateway.tls.secretName }}
-    {{- end }}
+  gatewayClassName: {{ .Values.gateway.gatewayClassName | default "istio" }}
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    hostname: {{ .Values.gateway.hostname | quote }}
+    allowedRoutes:
+      namespaces:
+        from: Same
+  {{- if .Values.gateway.tls.enabled }}
+  - name: https
+    port: 443
+    protocol: HTTPS
+    hostname: {{ .Values.gateway.hostname | quote }}
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: {{ .Values.gateway.tls.secretName }}
+    allowedRoutes:
+      namespaces:
+        from: Same
+  {{- end }}
+{{- end }}

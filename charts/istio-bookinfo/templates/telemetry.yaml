@@ -1,0 +1,14 @@
+{{- if .Values.telemetry.enabled }}
+---
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: {{ .Values.telemetry.name | default "bookinfo-telemetry" }}
+spec:
+  {{- if .Values.telemetry.targetRefs }}
+  targetRefs:
+  {{- toYaml .Values.telemetry.targetRefs | nindent 2 }}
+  {{- end }}
+  tracing:
+  {{- toYaml .Values.telemetry.tracing | nindent 2 }}
+{{- end }}
